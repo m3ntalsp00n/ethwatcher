@@ -50,6 +50,10 @@ def stopProcess():
 
 def main():
     data = getPowerFlowRealtimeData()
+    
+    if data == None:
+        return
+    
     wattage = data['Body']['Data']['Inverters']['1']['P']
 
     # handle error
@@ -65,7 +69,8 @@ def main():
             "200",
             "-U",
             "-P",
-            "stratum://0x5F60Ed141133BA91b68f4bBfFD2E0dbd686Fa387.miner:m3ntalsp00n@asia1.ethermine.org:4444"
+            "stratum://0x5F60Ed141133BA91b68f4bBfFD2E0dbd686Fa387.miner:" + 
+            "m3ntalsp00n@asia1.ethermine.org:4444"
         ])
     else: # less than 200
         if r:
