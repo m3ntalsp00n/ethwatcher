@@ -11,14 +11,14 @@ from subprocess import Popen, PIPE
 ip = "inverter"
 imgName = "ethminer.exe"
 
-def getTasks(name):
+def getOsTasks(name):
     r = os.popen('tasklist /v').read().strip().split('\n')
     for i in range(len(r)):
         if name in r[i]:
             return r[i]
     return []
 
-def getData(hostname, dataRequest):
+def getIverterData(hostname, dataRequest):
     try:
         url = "http://" + hostname + dataRequest
         r = requests.get(url, timeout=5)
@@ -31,7 +31,7 @@ def getData(hostname, dataRequest):
         
 def getPowerFlowRealtimeData():
     dataRq = '/solar_api/v1/GetPowerFlowRealtimeData.fcgi'
-    return getData(ip, dataRq)
+    return getIverterData(ip, dataRq)
 
 def prepareMsiAfterburner():
     subprocess.run([
@@ -57,7 +57,7 @@ def main():
     wattage = data['Body']['Data']['Inverters']['1']['P']
 
     # handle error
-    r = getTasks(imgName)
+    r = getOsTasks(imgName)
 
     if wattage > 200:
         if r:
